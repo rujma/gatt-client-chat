@@ -120,7 +120,7 @@ def main():
 
         chrc_paths = [d for d in chrcs if d.startswith(path + "/")]
 
-        print("Found in path " % path)
+        print("Found in path: ", path)
 
         if process_chat_service(path, chrc_paths):
             break
