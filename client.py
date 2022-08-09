@@ -31,7 +31,15 @@ def generic_error_cb(error):
     print('D-Bus call failed: ' + str(error))
     mainloop.quit()
 
+def chat_rd_cb(value):
+    print(value)
+    chat_wr_chrc[0].WriteValue(value, {}, error_handler=generic_error_cb,dbus_interface=GATT_CHRC_IFACE)
 
+def start_client():
+    chat_rd_chrc[0].ReadValue({}, reply_handler=chat_rd_cb, error_handler=generic_error_cb, dbus_interface=GATT_CHRC_IFACE)
+    chat_rd_prop_iface = dbus.Interface(chat_rd_chrc[0], DBUS_PROP_IFACE)
+    chat_rd_prop_iface.connect_to_signal("PropertiesChanged", chat_rd_cb)
+    chat_rd_chrc[0].StartNotify(reply_handler=chat_rd_cb, error_handler=generic_error_cb, dbus_interface=GATT_CHRC_IFACE)
 
 def process_chrc(chrc_path):
     chrc = bus.get_object(BLUEZ_SERVICE_NAME, chrc_path)
@@ -116,7 +124,7 @@ def main():
             break
 
     if not chat_service:
-        print('No Heart Rate Service found')
+        print('No Chat Service found')
         sys.exit(1)
 
     start_client()
