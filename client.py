@@ -33,7 +33,8 @@ def generic_error_cb(error):
 
 def chat_rd_cb(value):
     print(value)
-    chat_wr_chrc[0].WriteValue(value, {}, error_handler=generic_error_cb,dbus_interface=GATT_CHRC_IFACE)
+    new_value = bytes("OK", 'UTF-8')
+    chat_wr_chrc[0].WriteValue(new_value, {}, error_handler=generic_error_cb,dbus_interface=GATT_CHRC_IFACE)
 
 def start_client():
     chat_rd_chrc[0].ReadValue({}, reply_handler=chat_rd_cb, error_handler=generic_error_cb, dbus_interface=GATT_CHRC_IFACE)
