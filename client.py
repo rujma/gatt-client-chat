@@ -76,8 +76,8 @@ def process_chat_service(service_path, chrc_paths):
     for chrc_path in chrc_paths:
         process_chrc(chrc_path)
 
-    global hr_service
-    hr_service = (service, service_props, service_path)
+    global chat_service
+    chat_service = (service, service_props, service_path)
 
     return True
 
